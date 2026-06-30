@@ -10,10 +10,10 @@ export default function App() {
           Crypto Forecast
         </Link>
         <div className="flex gap-1.5">
-          <Link to="/bitcoin" className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+          <Link to="/bitcoin" className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
             BTC
           </Link>
-          <Link to="/ethereum" className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+          <Link to="/ethereum" className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
             ETH
           </Link>
         </div>

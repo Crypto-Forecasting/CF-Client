@@ -51,10 +51,10 @@ function HistoricalTooltip({ active, payload }) {
   return (
     <div className="min-w-[180px] rounded-xl border border-slate-200 bg-white p-4 text-sm shadow-xl">
       <div className="mb-1 font-semibold text-slate-500">{date}</div>
-      <div className="my-2 h-px bg-slate-200" />
+      <div className="my-2 h-px bg-slate-100" />
       {actual != null && (
-        <div className="flex items-center gap-1.5 py-0.5 font-medium text-slate-900">
-          <span className="size-2.5 shrink-0 rounded-full bg-slate-800" />
+        <div className="flex items-center gap-1.5 py-0.5 font-medium text-slate-800">
+          <span className="size-2.5 shrink-0 rounded-full bg-slate-700" />
           Aktual: {formatCurrency(actual)}
         </div>
       )}
@@ -72,7 +72,7 @@ function HistoricalTooltip({ active, payload }) {
         return (
           <div
             key={h}
-            className="flex items-center gap-1.5 py-0.5 font-medium text-slate-900"
+            className="flex items-center gap-1.5 py-0.5 font-medium text-slate-800"
           >
             <span
               className="size-2.5 shrink-0 rounded-full"
@@ -101,8 +101,8 @@ function PredictionTooltip({ active, payload }) {
       <div className="mb-1 font-semibold text-slate-500">
         Horizon {data.horizonDays} Hari
       </div>
-      <div className="my-2 h-px bg-slate-200" />
-      <div className="flex items-center gap-1.5 py-0.5 font-medium text-slate-900">
+      <div className="my-2 h-px bg-slate-100" />
+      <div className="flex items-center gap-1.5 py-0.5 font-medium text-slate-800">
         <span
           className="size-2.5 shrink-0 rounded-full"
           style={{ background: "#8b5cf6" }}
@@ -199,7 +199,7 @@ export default function ForecastChart({
   if (!historicalChartData.length || historicalChartData.length < 2) {
     return (
       <div className="grid min-h-[220px] place-items-center rounded-2xl border border-dashed border-slate-300 p-8 text-center">
-        <h3 className="mb-2 text-lg font-semibold">Data chart belum cukup</h3>
+        <h3 className="mb-2 text-lg font-semibold text-slate-700">Data chart belum cukup</h3>
         <p className="max-w-sm text-slate-500">
           Minimal dua prediksi dengan harga aktual diperlukan.
         </p>
@@ -221,10 +221,10 @@ export default function ForecastChart({
             <button
               type="button"
               key={range.label}
-              className={`min-h-[36px] rounded-lg border border-slate-300 px-4 py-1.5 text-sm font-semibold text-slate-700 transition ${
+              className={`min-h-[36px] rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold transition ${
                 activeRange === range.days
                   ? "border-brand-600 bg-brand-600 text-white"
-                  : "bg-white hover:border-teal-500"
+                  : "bg-white text-slate-600 hover:border-slate-300"
               }`}
               onClick={() => setActiveRange(range.days)}
             >
@@ -243,7 +243,7 @@ export default function ForecastChart({
             >
               <defs>
                 <linearGradient id="fillActual" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0f172a" stopOpacity={0.16} />
+                  <stop offset="0%" stopColor="#0f172a" stopOpacity={0.14} />
                   <stop offset="100%" stopColor="#0f172a" stopOpacity={0} />
                 </linearGradient>
               </defs>
@@ -464,9 +464,9 @@ export default function ForecastChart({
         )}
       </div>
 
-      <div className="mt-4 flex flex-wrap justify-center gap-6 border-t border-slate-100 pt-4 text-xs font-medium">
+      <div className="mt-4 flex flex-wrap justify-center gap-6 border-t border-slate-100 pt-4 text-xs font-medium text-slate-500">
         <div className="flex items-center gap-1.5">
-          <span className="inline-block size-3 rounded-full bg-slate-800" />
+          <span className="inline-block size-3 rounded-full bg-slate-700" />
           Aktual
         </div>
         {["h1", "h3", "h7"].map((h) => (

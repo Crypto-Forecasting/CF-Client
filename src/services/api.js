@@ -38,11 +38,12 @@ export function getChartData(coin) {
   return request(`/api/predictions/chart?coin=${coin}`);
 }
 
-export function getDailyHistory({ coin, page, limit } = {}) {
+export function getDailyHistory({ coin, page, limit, month } = {}) {
   const params = new URLSearchParams();
   if (coin) params.set("coin", coin);
   if (page) params.set("page", String(page));
   if (limit) params.set("limit", String(limit));
+  if (month) params.set("month", month);
   const query = params.toString();
   return request(`/api/predictions/daily${query ? `?${query}` : ""}`);
 }

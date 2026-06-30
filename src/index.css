@@ -16,7 +16,7 @@
 
 @layer base {
   body {
-    @apply m-0 min-h-screen bg-slate-50 font-sans text-slate-900 antialiased;
+    @apply m-0 min-h-screen bg-slate-100 font-sans text-slate-800 antialiased;
   }
   button, input { font: inherit; }
   a { color: inherit; text-decoration: none; }
@@ -25,10 +25,10 @@
 @layer components {
   .hero-bg::before {
     content: "";
-    @apply absolute -top-16 -right-10 size-72 rounded-full bg-white/5;
+    @apply absolute -top-16 -right-10 size-72 rounded-full bg-white/[0.06];
   }
   .hero-bg::after {
     content: "";
-    @apply absolute -bottom-8 right-24 size-40 rounded-full bg-white/3;
+    @apply absolute -bottom-8 right-24 size-40 rounded-full bg-white/[0.04];
   }
 }
