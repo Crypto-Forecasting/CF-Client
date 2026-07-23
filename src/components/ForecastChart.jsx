@@ -1,4 +1,5 @@
-﻿import { useState, useMemo } from "react";
+﻿import { useState, useMemo, memo } from "react";
+import { LineChart as LineChartIcon, CalendarRange } from "lucide-react";
 import {
   ComposedChart,
   Line,
@@ -109,17 +110,11 @@ function PredictionTooltip({ active, payload }) {
         />
         Prediksi: {formatCurrency(data.price)}
       </div>
-      {data.lo != null && data.hi != null && (
-        <div className="mt-1 flex items-center gap-1.5 text-xs text-slate-500">
-          Range: {formatCompactCurrency(data.lo)} –{" "}
-          {formatCompactCurrency(data.hi)}
-        </div>
-      )}
     </div>
   );
 }
 
-export default function ForecastChart({
+function ForecastChart({
   historical,
   forecasts,
   srLevels,
@@ -156,14 +151,10 @@ export default function ForecastChart({
     if (!forecasts || forecasts.length === 0) return [];
     const points = forecasts.map((f) => {
       const price = Number(f.price);
-      const mape = f.mape || 5;
-      const bandPct = (mape / 100) * 2;
       return {
         horizon: `H+${f.horizon}`,
         horizonDays: f.horizon,
         price,
-        lo: price * (1 - bandPct),
-        hi: price * (1 + bandPct),
       };
     });
     if (lastClose != null && Number.isFinite(Number(lastClose))) {
@@ -171,8 +162,6 @@ export default function ForecastChart({
         horizon: "",
         horizonDays: 0,
         price: Number(lastClose),
-        lo: null,
-        hi: null,
         isAnchor: true,
       });
     }
@@ -186,8 +175,6 @@ export default function ForecastChart({
     });
     predictionChartData.forEach((d) => {
       if (d.price != null) allValues.push(d.price);
-      if (d.lo != null) allValues.push(d.lo);
-      if (d.hi != null) allValues.push(d.hi);
     });
     if (allValues.length === 0) return ["auto", "auto"];
     const min = Math.min(...allValues);
@@ -198,11 +185,16 @@ export default function ForecastChart({
 
   if (!historicalChartData.length || historicalChartData.length < 2) {
     return (
-      <div className="grid min-h-[220px] place-items-center rounded-2xl border border-dashed border-slate-300 p-8 text-center">
-        <h3 className="mb-2 text-lg font-semibold text-slate-700">Data chart belum cukup</h3>
-        <p className="max-w-sm text-slate-500">
-          Minimal dua prediksi dengan harga aktual diperlukan.
-        </p>
+<div className="grid min-h-[240px] place-items-center rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 p-8 text-center">
+        <div className="flex flex-col items-center">
+          <span className="mb-4 flex size-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
+            <LineChartIcon className="size-6" strokeWidth={1.75} />
+          </span>
+          <h3 className="mb-2 text-lg font-semibold text-slate-700">Data chart belum cukup</h3>
+          <p className="max-w-sm text-sm text-slate-500">
+            Minimal dua prediksi dengan harga aktual diperlukan.
+          </p>
+        </div>
       </div>
     );
   }
@@ -216,15 +208,16 @@ export default function ForecastChart({
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-1">
+        <div className="inline-flex items-center gap-1 rounded-xl bg-slate-100 p-1 ring-1 ring-inset ring-slate-200">
+          <CalendarRange className="ml-2 mr-0.5 size-4 text-slate-400" strokeWidth={2} />
           {RANGES.map((range) => (
             <button
               type="button"
               key={range.label}
-              className={`min-h-[36px] rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold transition ${
+              className={`min-h-[32px] rounded-lg px-3.5 py-1.5 text-sm font-semibold transition ${
                 activeRange === range.days
-                  ? "border-brand-600 bg-brand-600 text-white"
-                  : "bg-white text-slate-600 hover:border-slate-300"
+                  ? "bg-white text-brand-700 shadow-soft"
+                  : "text-slate-500 hover:text-slate-800"
               }`}
               onClick={() => setActiveRange(range.days)}
             >
@@ -437,26 +430,6 @@ export default function ForecastChart({
                     }}
                   />
 
-                  <Line
-                    dataKey="hi"
-                    stroke="#c4b5fd"
-                    strokeWidth={1}
-                    strokeDasharray="3 3"
-                    dot={false}
-                    activeDot={false}
-                    connectNulls={false}
-                    animationDuration={800}
-                  />
-                  <Line
-                    dataKey="lo"
-                    stroke="#c4b5fd"
-                    strokeWidth={1}
-                    strokeDasharray="3 3"
-                    dot={false}
-                    activeDot={false}
-                    connectNulls={false}
-                    animationDuration={800}
-                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
@@ -491,3 +464,5 @@ export default function ForecastChart({
     </div>
   );
 }
+
+export default memo(ForecastChart);

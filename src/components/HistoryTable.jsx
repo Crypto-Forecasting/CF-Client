@@ -1,22 +1,9 @@
-import { useMemo } from "react";
+import { ChevronLeft, ChevronRight, History } from "lucide-react";
 import { formatCurrency, formatDate, formatPercent, accuracyTone } from "../utils/formatters";
 import EmptyState from "./EmptyState";
+import MonthPicker from "./MonthPicker";
 
 const HORIZONS = ["h1", "h3", "h7"];
-
-function generateMonthOptions() {
-  const months = [];
-  const now = new Date();
-  for (let i = 0; i < 24; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    const label = d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
-    months.push({ value, label });
-  }
-  return months;
-}
-
-const MONTH_OPTIONS = generateMonthOptions();
 
 const toneErrorClass = {
   success: "text-emerald-600",
@@ -25,101 +12,33 @@ const toneErrorClass = {
   default: "text-slate-400",
 };
 
-function ErrorTooltip({ h }) {
+function ErrorTooltip({ h, alignRight }) {
   const mape = h?.errorPercent ?? h?.error ?? null;
   const mae = h?.absoluteError ?? null;
   const sq = h?.squaredError ?? null;
 
   return (
-    <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-xl opacity-0 transition-opacity group-hover:opacity-100 whitespace-nowrap">
+    <div className={`pointer-events-none absolute top-full z-20 mt-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-xl opacity-0 transition-opacity group-hover:opacity-100 whitespace-nowrap ${alignRight ? "right-0" : "left-1/2 -translate-x-1/2"}`}>
       <div className="text-slate-500">MAPE: <span className="font-semibold text-slate-800">{mape != null ? formatPercent(mape) : "—"}</span></div>
       <div className="text-slate-500">MAE: <span className="font-semibold text-slate-800">{mae != null ? formatCurrency(mae) : "—"}</span></div>
       <div className="text-slate-500">MSE: <span className="font-semibold text-slate-800">{sq != null ? formatCurrency(sq) : "—"}</span></div>
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 rotate-45 border-4 border-transparent border-t-white" />
+      <div className={`absolute -top-1 rotate-45 border-4 border-transparent border-b-white ${alignRight ? "right-2" : "left-1/2 -translate-x-1/2"}`} />
     </div>
   );
 }
 
-function StatPill({ label, value, tone }) {
-  return (
-    <div className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-3 py-1.5">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</span>
-      <span className={`text-xs font-bold ${toneErrorClass[tone] || toneErrorClass.default}`}>{value ?? "—"}</span>
-    </div>
-  );
-}
-
-export default function HistoryTable({ rows, total, page, limit, onPageChange, stats, selectedMonth, onMonthChange }) {
+export default function HistoryTable({ rows, total, page, limit, onPageChange, selectedMonth, onMonthChange }) {
   const totalPages = limit ? Math.ceil((total || rows.length) / limit) : 1;
-
-  const monthIndex = useMemo(() => {
-    if (!selectedMonth) return -1;
-    return MONTH_OPTIONS.findIndex((m) => m.value === selectedMonth);
-  }, [selectedMonth]);
-
-  function prevMonth() {
-    if (monthIndex < MONTH_OPTIONS.length - 1) {
-      onMonthChange(MONTH_OPTIONS[monthIndex + 1].value);
-    }
-  }
-
-  function nextMonth() {
-    if (monthIndex > 0) {
-      onMonthChange(MONTH_OPTIONS[monthIndex - 1].value);
-    }
-  }
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div className="flex items-center gap-4">
-          {["h1", "h3", "h7"].map((k) => {
-            const s = stats?.[k];
-            const mape = s?.mape ?? null;
-            const tone = accuracyTone(mape);
-            return (
-              <div key={k} className="flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{k.replace("h", "H+")}</span>
-                <div className="flex items-center gap-1.5">
-                  <StatPill label="MAPE" value={mape != null ? formatPercent(mape) : null} tone={tone} />
-                  <StatPill label="MAE" value={s?.mae != null ? formatCurrency(s.mae) : null} tone={tone} />
-                  <StatPill label="RMSE" value={s?.rmse != null ? formatCurrency(s.rmse) : null} tone={tone} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-1">
-          <button
-            className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-xs text-slate-400 transition hover:border-slate-300 hover:text-slate-600 disabled:opacity-30"
-            disabled={monthIndex >= MONTH_OPTIONS.length - 1}
-            onClick={prevMonth}
-          >
-            &larr;
-          </button>
-          <select
-            className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 outline-none transition focus:border-brand-400"
-            value={selectedMonth || ""}
-            onChange={(e) => onMonthChange(e.target.value || null)}
-          >
-            <option value="">Semua Bulan</option>
-            {MONTH_OPTIONS.map((m) => (
-              <option key={m.value} value={m.value}>{m.label}</option>
-            ))}
-          </select>
-          <button
-            className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-xs text-slate-400 transition hover:border-slate-300 hover:text-slate-600 disabled:opacity-30"
-            disabled={monthIndex <= 0}
-            onClick={nextMonth}
-          >
-            &rarr;
-          </button>
-        </div>
+      <div className="mb-5 flex flex-wrap items-center justify-end gap-3">
+        <MonthPicker value={selectedMonth} onChange={onMonthChange} />
       </div>
 
       {!rows.length ? (
         <EmptyState
+          icon={History}
           title="Belum ada histori prediksi"
           message="Jalankan prediksi pertama untuk mengisi tabel evaluasi model."
         />
@@ -158,14 +77,15 @@ export default function HistoryTable({ rows, total, page, limit, onPageChange, s
                       const err = h?.error ?? null;
                       const tone = accuracyTone(err);
                       const errClass = toneErrorClass[tone] || toneErrorClass.default;
+                      const isLastColumn = k === "h7";
 
                       return (
                         <td key={`e-${k}`} className="px-4 py-3 text-right text-sm whitespace-nowrap">
                           <div className="group relative inline-block">
-                            <span className={`font-semibold font-mono ${err != null ? errClass : "text-slate-300"}`}>
+                            <span className={`font-mono font-semibold ${err != null ? errClass : "text-slate-300"}`}>
                               {err != null ? formatPercent(err) : "—"}
                             </span>
-                            {err != null && <ErrorTooltip h={h} />}
+                            {err != null && <ErrorTooltip h={h} alignRight={isLastColumn} />}
                           </div>
                         </td>
                       );
@@ -183,11 +103,12 @@ export default function HistoryTable({ rows, total, page, limit, onPageChange, s
               </span>
               <div className="flex items-center gap-1">
                 <button
-                  className="min-h-[32px] rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700 disabled:opacity-30"
+                  className="flex min-h-[32px] items-center gap-0.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700 disabled:opacity-30"
                   disabled={page <= 1}
                   onClick={() => onPageChange(page - 1)}
                 >
-                  &larr;
+                  <ChevronLeft className="size-3.5" strokeWidth={2.25} />
+                  Prev
                 </button>
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                   let p;
@@ -200,7 +121,7 @@ export default function HistoryTable({ rows, total, page, limit, onPageChange, s
                       key={p}
                       className={`min-h-[32px] min-w-[32px] rounded-lg border text-xs font-semibold transition ${
                         p === page
-                          ? "border-brand-500 bg-brand-500 text-white"
+                          ? "border-brand-600 bg-brand-600 text-white shadow-soft"
                           : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700"
                       }`}
                       onClick={() => onPageChange(p)}
@@ -210,11 +131,12 @@ export default function HistoryTable({ rows, total, page, limit, onPageChange, s
                   );
                 })}
                 <button
-                  className="min-h-[32px] rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700 disabled:opacity-30"
+                  className="flex min-h-[32px] items-center gap-0.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700 disabled:opacity-30"
                   disabled={page >= totalPages}
                   onClick={() => onPageChange(page + 1)}
                 >
-                  &rarr;
+                  Next
+                  <ChevronRight className="size-3.5" strokeWidth={2.25} />
                 </button>
               </div>
             </div>
