@@ -20,14 +20,16 @@ export default function Landing() {
     <div className="flex flex-col gap-10">
       <section className="hero-bg hero-grid relative overflow-hidden rounded-3xl px-8 py-12 lg:px-14 lg:py-16">
         <div className="relative z-10 max-w-2xl">
-          <Badge tone="brand" icon={Sparkles}>CNN-LSTM Hybrid Model</Badge>
+          <Badge tone="brand" icon={Sparkles}>
+            CNN-LSTM Hybrid Model
+          </Badge>
           <h1 className="mt-5 mb-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-white lg:text-6xl">
             Crypto Forecasting
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-slate-200/90 lg:text-lg">
-            Prediksi harga Bitcoin &amp; Ethereum menggunakan arsitektur deep
-            learning CNN-LSTM. Data real-time dari Binance, analisis teknikal
-            RSI &amp; MACD, serta sentimen pasar Fear &amp; Greed Index.
+            Prediksi harga Bitcoin &amp; Ethereum menggunakan arsitektur
+            CNN-LSTM. Data real-time dari Binance, analisis teknikal RSI &amp;
+            MACD.
           </p>
         </div>
         <div className="absolute -right-12 -top-12 size-72 rounded-full bg-brand-400/20 blur-3xl" />
@@ -45,7 +47,6 @@ export default function Landing() {
         <SectionHeader
           eyebrow="Prediksi Terkini"
           title="Ringkasan Prediksi 7 Hari"
-          description="Estimasi harga H+7 untuk Bitcoin & Ethereum berdasarkan model CNN-LSTM terbaru."
           icon={GaugeCircle}
         />
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -66,7 +67,6 @@ export default function Landing() {
         <SectionHeader
           eyebrow="Performa Model"
           title="Evaluasi Akurasi Per Horizon"
-          description="Metrik MAPE, MAE, dan RMSE di setiap horizon prediksi untuk BTC & ETH."
           icon={BarChart3}
         />
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">

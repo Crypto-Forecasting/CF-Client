@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Bitcoin, History, LineChart, AlertCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Bitcoin,
+  History,
+  LineChart,
+  AlertCircle,
+} from "lucide-react";
 import EthereumIcon from "../components/icons/EthereumIcon";
 import ForecastChart from "../components/ForecastChart";
 import HistoryTable from "../components/HistoryTable";
@@ -10,7 +16,12 @@ import { getDailyHistory, getChartData } from "../services/api";
 
 const coinMeta = {
   bitcoin: { asset: "BTC", label: "Bitcoin", color: "#F7931A", Icon: Bitcoin },
-  ethereum: { asset: "ETH", label: "Ethereum", color: "#627EEA", Icon: EthereumIcon },
+  ethereum: {
+    asset: "ETH",
+    label: "Ethereum",
+    color: "#627EEA",
+    Icon: EthereumIcon,
+  },
 };
 
 export default function CoinDetail() {
@@ -49,7 +60,12 @@ export default function CoinDetail() {
   async function loadDailyHistory(p, month) {
     setIsLoadingHistory(true);
     try {
-      const payload = await getDailyHistory({ coin: meta.asset, page: p, limit, month });
+      const payload = await getDailyHistory({
+        coin: meta.asset,
+        page: p,
+        limit,
+        month,
+      });
       setHistory(payload.data || []);
       setTotal(payload.total || 0);
       setPage(payload.page || p);
@@ -76,9 +92,16 @@ export default function CoinDetail() {
           <span className="mb-4 flex size-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
             <AlertCircle className="size-6" strokeWidth={1.75} />
           </span>
-          <h3 className="mb-2 text-lg font-semibold text-slate-700">Koin tidak ditemukan</h3>
+          <h3 className="mb-2 text-lg font-semibold text-slate-700">
+            Koin tidak ditemukan
+          </h3>
           <p>
-            <Link to="/" className="font-semibold text-brand-600 hover:underline">Kembali ke dashboard</Link>
+            <Link
+              to="/"
+              className="font-semibold text-brand-600 hover:underline"
+            >
+              Kembali ke dashboard
+            </Link>
           </p>
         </div>
       </div>
@@ -101,7 +124,9 @@ export default function CoinDetail() {
         <div className="flex flex-wrap items-center gap-4">
           <div
             className="flex size-14 shrink-0 items-center justify-center rounded-2xl text-white shadow-soft"
-            style={{ background: `linear-gradient(135deg, ${meta.color}, ${meta.color}cc)` }}
+            style={{
+              background: `linear-gradient(135deg, ${meta.color}, ${meta.color}cc)`,
+            }}
           >
             <CoinIcon className="size-7" strokeWidth={2.25} />
           </div>
@@ -111,7 +136,6 @@ export default function CoinDetail() {
             </h1>
             <p className="mt-1 flex items-center gap-2 text-sm text-slate-500">
               <Badge tone="warning">{meta.asset}</Badge>
-              <span>Prediksi harga dengan model CNN-LSTM</span>
             </p>
           </div>
         </div>
@@ -153,10 +177,17 @@ export default function CoinDetail() {
             <div className="grid min-h-[240px] place-items-center rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 p-8 text-center">
               <div className="flex flex-col items-center">
                 <span className="mb-4 flex size-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-                  <LineChart className="size-6 animate-pulse" strokeWidth={1.75} />
+                  <LineChart
+                    className="size-6 animate-pulse"
+                    strokeWidth={1.75}
+                  />
                 </span>
-                <h3 className="mb-2 text-base font-semibold text-slate-700">Memuat data...</h3>
-                <p className="max-w-sm text-sm text-slate-400">Mengambil histori prediksi dari server.</p>
+                <h3 className="mb-2 text-base font-semibold text-slate-700">
+                  Memuat data...
+                </h3>
+                <p className="max-w-sm text-sm text-slate-400">
+                  Mengambil histori prediksi dari server.
+                </p>
               </div>
             </div>
           ) : (
