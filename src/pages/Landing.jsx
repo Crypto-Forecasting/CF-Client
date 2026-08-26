@@ -28,8 +28,7 @@ export default function Landing() {
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-slate-200/90 lg:text-lg">
             Prediksi harga Bitcoin &amp; Ethereum menggunakan arsitektur
-            CNN-LSTM. Data real-time dari Binance, analisis teknikal RSI &amp;
-            MACD.
+            CNN-LSTM. Data real-time dari Binance &amp;
           </p>
         </div>
         <div className="absolute -right-12 -top-12 size-72 rounded-full bg-brand-400/20 blur-3xl" />

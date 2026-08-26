@@ -152,7 +152,7 @@ export default function CoinDetail() {
         <SectionHeader
           eyebrow="Grafik"
           title="Prediksi vs Aktual"
-          description="Perbandingan harga aktual dengan prediksi tiap horizon + Support/Resistance."
+          description="Perbandingan harga aktual dengan prediksi tiap horizon."
           icon={LineChart}
         />
         <div className="mt-5">
