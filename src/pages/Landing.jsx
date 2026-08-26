@@ -21,14 +21,14 @@ export default function Landing() {
       <section className="hero-bg hero-grid relative overflow-hidden rounded-3xl px-8 py-12 lg:px-14 lg:py-16">
         <div className="relative z-10 max-w-2xl">
           <Badge tone="brand" icon={Sparkles}>
-            CNN-LSTM Hybrid Model
+            Model Hybrid CNN-LSTM
           </Badge>
           <h1 className="mt-5 mb-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-white lg:text-6xl">
             Crypto Forecasting
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-slate-200/90 lg:text-lg">
             Prediksi harga Bitcoin &amp; Ethereum menggunakan arsitektur
-            CNN-LSTM. Data real-time dari Binance &amp;
+            CNN-LSTM. Data real-time dari Binance
           </p>
         </div>
         <div className="absolute -right-12 -top-12 size-72 rounded-full bg-brand-400/20 blur-3xl" />
